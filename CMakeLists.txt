@@ -9,17 +9,23 @@ cmake_policy(VERSION 3.2)
 # LIBRARIES DIRECTORIES 
 # This is the list of the dependancies and this file should provide an easy configuration for everyone 
 # -----------------------------------------------------
+	
+# Library folder
+# I've decided to put some of my dependancies in the lib directory
+	set(lib_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
+
+# Dear ImGui
+	set(IMGUI_DIR ${lib_FOLDER}/imgui/)
+# GLM
+	set(GLM_DIR ${lib_FOLDER}/glm/)
+# GLFW
+	set(GLFW_DIR ${lib_FOLDER}/glfw/)
+# Vulkan
+	# For Vulkan we are relying on CMake's find_library
 # Boost
 	set(Boost_INCLUDE_DIR /home/mariefrance/Documents/SDKs/boost/)
 	# find_package(boost) will do the rest
-# Dear ImGui
-	set(IMGUI_DIR /home/mariefrance/Documents/SDKs/imgui)
-# GLFW
-	set(GLFW_DIR /home/mariefrance/Documents/SDKs/glfw/)
-# Vulkan
-	# For Vulkan we are relying on CMake's find_library
-# GLM
-	set(GLM_DIR /home/mariefrance/Documents/SDKs/glm/)
+
 
 
 
