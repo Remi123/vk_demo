@@ -17,9 +17,9 @@
 #include <stdio.h>   // printf, fprintf
 #include <stdlib.h>  // abort
 
-#include <vector>
 #include <algorithm>
 #include <numeric>
+#include <vector>
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -590,29 +590,27 @@ int main(int, char**) {
     constexpr uint32_t vi_size = 40;
     static std::vector<int> vi(vi_size);
     static int modulo_by = 5;
-    if (ImGui::Button("Init vector")) 
-    {
+    if (ImGui::Button("Init vector")) {
       std::iota(vi.begin(), vi.end(), 1);
     }
     ImGui::SameLine();
-    if(ImGui::Button("Group by modulo "))
-    {
-      std::sort(vi.begin(), vi.end(),
-        [](const int& a, const int& b){return a % modulo_by < b % modulo_by;}
-      ); 
+    if (ImGui::Button("Group by modulo ")) {
+      std::sort(vi.begin(), vi.end(), [](const int& a, const int& b) {
+        return a % modulo_by < b % modulo_by;
+      });
     }
     ImGui::SameLine();
     ImGui::InputInt("Modulo : ", &modulo_by);
-    
-    ImGui::PlotHistogram("Plot values", [](void* data, int idx) ->float
-    {return vi[idx];}
-    , (void*)vi.data(), vi_size); 
-    ImGui::PlotHistogram("mod values", [](void* data, int idx) ->float
-    {return vi[idx] % modulo_by;}
-    , NULL, vi_size); 
+
+    ImGui::PlotHistogram(
+        "Plot values", [](void* data, int idx) -> float { return vi[idx]; },
+        (void*)vi.data(), vi_size);
+    ImGui::PlotHistogram(
+        "mod values",
+        [](void* data, int idx) -> float { return vi[idx] % modulo_by; }, NULL,
+        vi_size);
 
     ImGui::End();
-
 
     // Rendering
     ImGui::Render();
