@@ -609,7 +609,7 @@ int main(int, char**) {
         "mod values",
         [](void* data, int idx) -> float { return vi[idx] % modulo_by; }, NULL,
         vi_size);
-
+    ImGui::Text("Hello World");
     ImGui::End();
 
     // Rendering
