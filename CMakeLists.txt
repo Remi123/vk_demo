@@ -49,9 +49,12 @@ endif()
 
 
 
-file(GLOB sources *.cpp )
+file(GLOB sources main.cpp )
+
 # Executable target to link libraries and include directories
 add_executable(vkDemo ${sources} )
+
+add_subdirectory(src)
 
 set(CMAKE_CXX_CLANG_TIDY 
         clang-tidy;
