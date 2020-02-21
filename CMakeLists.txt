@@ -54,6 +54,9 @@ file(GLOB sources main.cpp )
 # Executable target to link libraries and include directories
 add_executable(vkDemo ${sources} )
 
+add_executable(syncserver ${CMAKE_CURRENT_SOURCE_DIR}/src/sync_server.cpp )
+add_executable(syncclient ${CMAKE_CURRENT_SOURCE_DIR}/src/sync_client.cpp )
+
 add_subdirectory(src)
 
 set(CMAKE_CXX_CLANG_TIDY 
@@ -125,13 +128,16 @@ target_include_directories(vkDemo PRIVATE ${GLM_DIR})
 # -----------------------------------------------------
 # BOOST PACKAGE
 # -----------------------------------------------------
-find_package(Boost 1.72 REQUIRED)
+find_package(Boost 1.72 REQUIRED system )
 if(Boost_FOUND)
         target_include_directories(vkDemo PRIVATE ${Boost_INCLUDE_DIRS})
+        target_include_directories(syncserver PRIVATE ${Boost_INCLUDE_DIRS})
+        target_include_directories(syncclient PRIVATE ${Boost_INCLUDE_DIRS})
 endif()
 message(STATUS "Boost version: ${Boost_VERSION}")
 
-
+target_link_libraries(syncserver ${Boost_LIBRARIES} pthread)
+target_link_libraries(syncclient ${Boost_LIBRARIES} pthread)
 
 
 
