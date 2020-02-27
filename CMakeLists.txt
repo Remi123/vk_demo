@@ -54,6 +54,7 @@ file(GLOB sources main.cpp )
 # Executable target to link libraries and include directories
 add_executable(vkDemo ${sources} )
 
+add_executable(asyncserver ${CMAKE_CURRENT_SOURCE_DIR}/src/async_server.cpp )
 add_executable(syncserver ${CMAKE_CURRENT_SOURCE_DIR}/src/sync_server.cpp )
 add_executable(syncclient ${CMAKE_CURRENT_SOURCE_DIR}/src/sync_client.cpp )
 
@@ -129,16 +130,40 @@ target_include_directories(vkDemo PRIVATE ${GLM_DIR})
 # BOOST PACKAGE
 # -----------------------------------------------------
 find_package(Boost 1.72 REQUIRED system )
-if(Boost_FOUND)
-        target_include_directories(vkDemo PRIVATE ${Boost_INCLUDE_DIRS})
-        target_include_directories(syncserver PRIVATE ${Boost_INCLUDE_DIRS})
-        target_include_directories(syncclient PRIVATE ${Boost_INCLUDE_DIRS})
-endif()
+target_include_directories(vkDemo PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(syncserver PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(asyncserver PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(syncclient PRIVATE ${Boost_INCLUDE_DIRS})
+
 message(STATUS "Boost version: ${Boost_VERSION}")
 
 target_link_libraries(syncserver ${Boost_LIBRARIES} pthread)
+target_link_libraries(asyncserver ${Boost_LIBRARIES} pthread)
 target_link_libraries(syncclient ${Boost_LIBRARIES} pthread)
 
+
+add_custom_target(synchro
+        # Add ALL to be run everytime
+        COMMENT "Synchronous Server/Client Run"
+        COMMAND echo "----------------\n"
+        COMMAND ./syncserver  & sleep 0.1 &&  ./syncclient
+        COMMAND echo "----------------\n"
+        DEPENDS syncserver syncclient
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        USES_TERMINAL
+        )
+add_custom_target(async
+        # Add ALL to be run everytime
+        COMMENT "Asynchronous Server/Client Run"
+        COMMAND echo "Start---------------- "
+        COMMAND ./asyncserver &
+        COMMAND parallel -j0 ./syncclient ::: {0..5}
+        COMMAND echo "Stop---------------- "
+        COMMAND pkill asyncserver
+        DEPENDS asyncserver syncclient
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        USES_TERMINAL
+        )
 
 
 
