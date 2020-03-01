@@ -342,6 +342,7 @@ static void glfw_resize_callback(GLFWwindow*, int w, int h) {
 }
 
 namespace visual {
+// Constructor
 graphics::graphics() {
   glfwSetErrorCallback(glfw_error_callback);
   if (!glfwInit()) throw;
@@ -428,7 +429,7 @@ graphics::graphics() {
     ImGui_ImplVulkan_DestroyFontUploadObjects();
   }
 }
-
+// Destructor
 graphics::~graphics() {
   // Cleanup
   err = vkDeviceWaitIdle(g_Device);

@@ -3,6 +3,7 @@
 
 cmake_minimum_required(VERSION 3.2)
 cmake_policy(VERSION 3.2)
+
 enable_testing()
 
 # -----------------------------------------------------
@@ -13,20 +14,6 @@ enable_testing()
 # Library folder
 # I've decided to put some of my dependancies in the lib directory
 set(lib_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
-
-# Dear ImGui
-set(IMGUI_DIR ${lib_FOLDER}/imgui/)
-# GLM
-set(GLM_DIR ${lib_FOLDER}/glm/)
-# GLFW
-set(GLFW_DIR ${lib_FOLDER}/glfw/)
-# Vulkan
-# For Vulkan we rely on CMake's find_library
-# Boost
-set(Boost_INCLUDE_DIR /home/mariefrance/Documents/SDKs/boost/)
-# find_package(boost) will do the rest
-
-
 
 
 # -----------------------------------------------------
@@ -44,8 +31,6 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 if(NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
 endif()
-#set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVK_PROTOTYPES")
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVK_PROTOTYPES")
 
 
 
@@ -55,7 +40,6 @@ file(GLOB sources main.cpp )
 add_executable(vkDemo ${sources} )
 
 add_executable(asyncserver ${CMAKE_CURRENT_SOURCE_DIR}/src/async_server.cpp )
-#add_executable(syncserver ${CMAKE_CURRENT_SOURCE_DIR}/src/sync_server.cpp )
 add_executable(syncclient ${CMAKE_CURRENT_SOURCE_DIR}/src/sync_client.cpp )
 
 add_subdirectory(src)
@@ -69,75 +53,59 @@ target_compile_options(vkDemo PRIVATE
         -Wall
         )
 
+
+# -------------------------------------------------
+# COMPILER WARNINGS
+# -------------------------------------------------
+include(cmake/compiler_warnings.cmake)
+set_project_warnings(vkDemo)
+
+
+# -------------------------------------------------
+# CCACHE
+# -------------------------------------------------
+find_program(CCACHE ccache)
+if(CCACHE)
+        message(STATUS "using ccache")
+        set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
+else()
+        message(STATUS "ccache not found cannot use")
+endif()
+
 # -----------------------------------------------------
 # VULKAN
 # -----------------------------------------------------
-find_library(VULKAN_LIBRARY
-        NAMES vulkan vulkan-1)
-set(LIBRARIES "glfw;${VULKAN_LIBRARY}")
+include(cmake/vulkan.cmake)
 target_link_libraries(vkDemo ${VULKAN_LIBRARY})
-message(STATUS "Vulkan version: ${VULKAN_INCLUDE_DIRS} ${Vulkan_INCLUDE_DIR}")
-
-
 
 # -----------------------------------------------------
 # GLFW
 # -----------------------------------------------------
-# Option
-option(GLFW_BUILD_EXAMPLES "Build the GLFW example programs" OFF)
-option(GLFW_BUILD_TESTS "Build the GLFW test programs" OFF)
-option(GLFW_BUILD_DOCS "Build the GLFW documentation" OFF)
-option(GLFW_INSTALL "Generate installation target" OFF)
-option(GLFW_DOCUMENT_INTERNALS "Include internals in documentation" OFF)
-# Includes
-add_subdirectory(${GLFW_DIR} binary_dir EXCLUDE_FROM_ALL)
+include(cmake/glfw.cmake)
+
 target_include_directories(vkDemo PRIVATE ${GLFW_DIR}/include)
-# Use vulkan headers from glfw:
-include_directories(${GLFW_DIR}/deps)
 target_link_libraries(vkDemo glfw )
-
-
-
 # -----------------------------------------------------
 # DEAR IMGUI LIBRARY
 # -----------------------------------------------------
 # Headers files
-target_include_directories(vkDemo PRIVATE 
-        ${IMGUI_DIR} # For imgui.h and imgui_*.h
-        ${IMGUI_DIR}/examples # for imgui_impl_vulkan.h and imgui_impl_glfw.h
-        )
-
-# sources files
-target_sources( vkDemo PUBLIC
-        ${IMGUI_DIR}/examples/imgui_impl_glfw.cpp 
-        ${IMGUI_DIR}/examples/imgui_impl_vulkan.cpp
-        ${IMGUI_DIR}/imgui.cpp 
-        ${IMGUI_DIR}/imgui_draw.cpp 
-        ${IMGUI_DIR}/imgui_demo.cpp 
-        ${IMGUI_DIR}/imgui_widgets.cpp
-        )
-
-
+include(cmake/imgui.cmake)
 
 # -----------------------------------------------------
 # GLM
 # -----------------------------------------------------
-target_include_directories(vkDemo PRIVATE ${GLM_DIR})
-
+include(cmake/glm.cmake)
 
 
 # -----------------------------------------------------
 # BOOST PACKAGE
 # -----------------------------------------------------
-find_package(Boost 1.72 REQUIRED system )
+include(cmake/boost.cmake)
 target_include_directories(vkDemo PRIVATE ${Boost_INCLUDE_DIRS})
-#target_include_directories(syncserver PRIVATE ${Boost_INCLUDE_DIRS})
 target_include_directories(asyncserver PRIVATE ${Boost_INCLUDE_DIRS})
 target_include_directories(syncclient PRIVATE ${Boost_INCLUDE_DIRS})
 
-message(STATUS "Boost version: ${Boost_VERSION}")
 
-#target_link_libraries(syncserver ${Boost_LIBRARIES} pthread)
 target_link_libraries(asyncserver ${Boost_LIBRARIES} pthread)
 target_link_libraries(syncclient ${Boost_LIBRARIES} pthread)
 
