@@ -2,7 +2,7 @@
 *.d
 
 # Build directory
-b*
+b*/*
 
 # YCM youcompleteme
 .ycm_extra_conf.py
