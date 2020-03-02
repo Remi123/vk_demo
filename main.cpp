@@ -14,17 +14,40 @@
 //   used by your own engine/app code.
 // Read comments in imgui_impl_vulkan.h.
 
+#include "src/application.hpp"
+//#include "src/graphics.hpp"
+#include <cstdlib>
+#include <iostream>
+#include <stdexcept>
+#include <vector>
 
-
-#include "src/graphics.hpp"
-#include "src/network.hpp"
-
+//#include "src/network.hpp"
 
 int main(int, char**) {
+  // net::server{};
+  // visual::graphics Grp{};
+  // Grp.run();
 
-  net::server{};
-  visual::graphics Grp{};
-  Grp.run();
+  tri::application app{};
+  // debug info
+  {
+    uint32_t extensionCount = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+    std::vector<VkExtensionProperties> extensions(extensionCount);
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
+                                           extensions.data());
+    std::cout << "available extensions:" << std::endl;
 
-  return 0;
+    for (const auto& extension : extensions) {
+      std::cout << "\t" << extension.extensionName << std::endl;
+    }
+  }
+  //
+  try {
+    app.run();
+  } catch (const std::exception& e) {
+    std::cerr << e.what() << std::endl;
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
 }
