@@ -4,10 +4,10 @@
 #include <boost/asio.hpp>
 
 namespace net {
-struct server {
-  server();
-  ~server();
-};
+    struct server {
+        server();
+        ~server();
+    };
 }  // namespace net
 
 #endif  // VKDEMO_GRAPHICS_HPP

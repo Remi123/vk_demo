@@ -17,18 +17,18 @@
 #include <vulkan/vulkan.h>
 
 namespace visual {
-struct graphics {
-  graphics();
-  ~graphics();
-  void run();
+    struct graphics {
+        graphics();
+        ~graphics();
+        void run();
 
- private:
-  GLFWwindow* m_glfw_window;
-  VkResult err;
-  ImGui_ImplVulkanH_Window* wd;
-  bool show_demo_window = true;
-  bool show_another_window = false;
-  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-};
+        private:
+        GLFWwindow* m_glfw_window;
+        VkResult err;
+        ImGui_ImplVulkanH_Window* wd;
+        bool show_demo_window = true;
+        bool show_another_window = false;
+        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    };
 };      // namespace visual
 #endif  // VKDEMO_GRAPHICS_HPP

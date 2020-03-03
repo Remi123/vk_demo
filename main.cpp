@@ -24,30 +24,20 @@
 //#include "src/network.hpp"
 
 int main(int, char**) {
-  // net::server{};
-  // visual::graphics Grp{};
-  // Grp.run();
+    // net::server{};
+    // visual::graphics Grp{};
+    // Grp.run();
 
-  tri::application app{};
-  // debug info
-  {
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-    std::vector<VkExtensionProperties> extensions(extensionCount);
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount,
-                                           extensions.data());
-    std::cout << "available extensions:" << std::endl;
+    tri::application app{};
+    app.inst.print_extensions();
+    // debug info
 
-    for (const auto& extension : extensions) {
-      std::cout << "\t" << extension.extensionName << std::endl;
+    //
+    try {
+        app.run();
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
     }
-  }
-  //
-  try {
-    app.run();
-  } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
-    return EXIT_FAILURE;
-  }
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
