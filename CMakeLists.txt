@@ -40,22 +40,17 @@ file(GLOB sources main.cpp )
 add_executable(vkDemo ${sources} )
 add_subdirectory(src)
 
-set(CMAKE_CXX_CLANG_TIDY 
-    clang-tidy;
-    -header-filter=.;
-    -checks=*;)
-target_compile_features(vkDemo PUBLIC cxx_std_11)
-target_compile_options(vkDemo PRIVATE 
-    -Wall
-    )
-
+target_compile_features(vkDemo PUBLIC cxx_std_17)
+#set(CMAKE_CXX_CLANG_TIDY 
+    #clang-tidy;
+    #-header-filter=.;
+    #-checks=*;)
 
 # -------------------------------------------------
 # COMPILER WARNINGS
 # -------------------------------------------------
 include(cmake/compiler_warnings.cmake)
 set_project_warnings(vkDemo)
-
 
 # -------------------------------------------------
 # CCACHE

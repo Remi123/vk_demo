@@ -4,24 +4,26 @@
 
 #include "vulkan/vulkan.hpp"
 #include "window.hpp"
+#include "application.hpp"
 #include <iostream>
+
+#ifdef NDEBUG
+        static constexpr bool enableValidationLayers = false;
+#else
+        static constexpr bool enableValidationLayers = true;
+#endif
 
 namespace tri {
     struct instance {
         VkInstance m_instance;
         VkInstanceCreateInfo m_inst_create_info;
 
-        const std::vector<const char*> validationLayers; 
+        static std::vector<const char*> validationLayers;
+ 
 
 
-#ifdef NDEBUG
-        const bool enableValidationLayers = false;
-#else
-        const bool enableValidationLayers = true;
-#endif
         instance() : m_instance{}
         , m_inst_create_info{} 
-        , validationLayers{"VK_LAYER_KHRONOS_validation"}
         {
             if (enableValidationLayers && !checkValidationLayerSupport()) {
                 throw std::runtime_error("validation layers requested, but not available!");
@@ -93,5 +95,7 @@ namespace tri {
         }
 
     };
+
+    std::vector<const char *> tri::instance::validationLayers = std::vector<const char *>{ "VK_LAYER_KHRONOS_validation"};
 }  // namespace tri
 #endif
