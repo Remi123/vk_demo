@@ -14,6 +14,7 @@
 //   used by your own engine/app code.
 // Read comments in imgui_impl_vulkan.h.
 
+#include "src/globals.hpp"
 #include "src/application.hpp"
 //#include "src/graphics.hpp"
 #include <cstdlib>

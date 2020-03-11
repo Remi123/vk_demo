@@ -1,13 +1,14 @@
 #ifndef TRI_APPLICATION_HPP
 #define TRI_APPLICATION_HPP
 
-
+#include "globals.hpp"
 #include "window.hpp"
+#include "instance.hpp"
 #include "logicaldevice.hpp"
 #include "physicaldevice.hpp"
-#include "instance.hpp"
 
 namespace tri {
+
     struct application {
         tri::window wd;
         tri::instance inst;
@@ -15,8 +16,9 @@ namespace tri {
         tri::logical_device logdev;
         //
         application()
-            : wd{},
-            inst{} ,
+            : 
+            wd{},
+            inst{wd} ,
             phydev{inst.m_instance},
             logdev{phydev}
             // Ctor
@@ -25,7 +27,7 @@ namespace tri {
         {}
 
         bool run() {
-            while (!glfwWindowShouldClose(wd.m_window)) glfwPollEvents();
+            while (!glfwWindowShouldClose(tri::m_window)) glfwPollEvents();
             return true;
         }
 
