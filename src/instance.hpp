@@ -24,7 +24,7 @@ struct instance {
 
   static std::vector<const char *> validationLayers;
 
-  instance(tri::window& wd_) : m_instance{}, m_inst_create_info{} {
+  instance(tri::window &wd_) : m_instance{}, m_inst_create_info{} {
     if (enableValidationLayers && !checkValidationLayerSupport()) {
       throw std::runtime_error(
           "validation layers requested, but not available!");
