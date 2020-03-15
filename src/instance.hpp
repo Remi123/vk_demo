@@ -20,6 +20,7 @@ namespace tri {
 struct instance {
   VkInstance m_instance;
   VkInstanceCreateInfo m_inst_create_info;
+  VkSurfaceKHR m_surface;
 
   static std::vector<const char *> validationLayers;
 
@@ -57,7 +58,7 @@ struct instance {
       throw std::runtime_error("failed to create instance!");
     }
     if (glfwCreateWindowSurface(m_instance, tri::m_window, nullptr,
-                                &wd_.m_surface) != VK_SUCCESS) {
+                                &m_surface) != VK_SUCCESS) {
       throw std::runtime_error("failed to create window surface!");
     }
   }
