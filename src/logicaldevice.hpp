@@ -5,6 +5,7 @@
 #include "physicaldevice.hpp"
 #include <set>
 #include <vector>
+#include <optional>
 #include <vulkan/vulkan.h>
 
 namespace tri {

@@ -1,0 +1,10 @@
+-Wall
+-Wextra
+-pedantic
+-std=c++17
+-stdlib=libc++
+-isystem /usr/local/include
+-isystem /usr/lib/clang/7.0.0/include
+-isystem /usr/include
+-isystem /usr/include/c++/v1
+

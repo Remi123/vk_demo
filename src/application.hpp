@@ -6,6 +6,7 @@
 #include "logicaldevice.hpp"
 #include "physicaldevice.hpp"
 #include "window.hpp"
+#include "swapchain.hpp"
 
 namespace tri {
 
@@ -14,9 +15,10 @@ struct application {
   tri::instance inst;
   tri::physical_device phydev;
   tri::logical_device logdev;
+  tri::swapchain swch;
   //
   application()
-      : wd{}, inst{wd}, phydev{inst}, logdev{phydev} // Ctor
+      : wd{}, inst{wd}, phydev{inst}, logdev{phydev}, swch{phydev}
   {}
   ~application() // Dtor
   {}

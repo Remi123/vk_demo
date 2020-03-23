@@ -7,6 +7,9 @@ b*/*
 # YCM youcompleteme
 .ycm_extra_conf.py
 
+# AsyncTasks config
+.tasks
+
 # Compiled Object files
 *.slo
 *.lo

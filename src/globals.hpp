@@ -11,5 +11,7 @@ namespace tri
     GLFWwindow* m_window;
     uint32_t g_glfwExtensionCount = 0;
     const char** g_glfwExtensions;
+    constexpr uint32_t g_window_width = 800;
+    constexpr uint32_t g_window_height = 800;
 }
 #endif

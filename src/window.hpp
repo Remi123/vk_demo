@@ -14,7 +14,7 @@ struct window {
   uint32_t m_height;
 
   //
-  window() : m_width(800), m_height(600) {
+  window() : m_width(tri::g_window_width), m_height(tri::g_window_height) {
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     g_glfwExtensions =

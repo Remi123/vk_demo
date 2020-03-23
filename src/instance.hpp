@@ -1,6 +1,6 @@
 
-#ifndef INSTANCE_HPP
-#define INSTANCE_HPP
+#ifndef TRI_INSTANCE_HPP
+#define TRI_INSTANCE_HPP
 
 #include <iostream>
 

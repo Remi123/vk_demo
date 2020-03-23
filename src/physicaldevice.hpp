@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <vector>
 #include <vulkan/vulkan.h>
+#include "instance.hpp"
 
 namespace tri {
 struct physical_device {
@@ -35,7 +36,6 @@ struct physical_device {
     auto dev_ = std::find_if(
         devices.begin(), devices.end(), [this, &inst](VkPhysicalDevice dev) {
           bool swapChainAdequate = false;
-
           bool extensionsSupported = this->checkDeviceExtensionSupport(dev);
 
           if (extensionsSupported) {
