@@ -1,8 +1,11 @@
 message (STATUS "Boost.cmake Configuration")
 
-set(Boost_INCLUDE_DIR /home/mariefrance/Documents/SDKs/boost/)
+#include and lib directory for boost.
+#set(BOOST_INCLUDEDIR /usr/include/)
+#set(BOOST_LIBRARYDIR /usr/lib/)
 
-find_package(Boost 1.72 REQUIRED system )
+find_package(Boost 1.73 REQUIRED 
+            COMPONENTS system )
 
 message(STATUS "Boost version:" ${Boost_VERSION})
 
