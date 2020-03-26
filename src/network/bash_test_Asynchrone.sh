@@ -2,6 +2,6 @@
 
 echo "Start---------------- "
 ./asyncserver&
-parallel -j0 ./syncclient ::: {0..5}
+parallel -j0 ./syncclient ::: {0..60}
 echo "End---------------- "
 pkill asyncserver
