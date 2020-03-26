@@ -18,7 +18,7 @@ struct application {
   tri::swapchain swch;
   //
   application()
-      : wd{}, inst{wd}, phydev{inst}, logdev{phydev}, swch{phydev}
+      : wd{}, inst{wd}, phydev{inst}, logdev{phydev}, swch{inst,phydev}
   {}
   ~application() // Dtor
   {}
